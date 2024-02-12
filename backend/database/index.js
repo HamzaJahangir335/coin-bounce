@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-
-const MONGO_DB_CONNECTION_STRING ='mongodb://0.0.0.0:27017/coin-bounce';
-
+const {MONGO_DB_CONNECTION_STRING} = require('../config/index')
 
 const dbConnect = async () => {
   try {
