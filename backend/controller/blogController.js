@@ -4,10 +4,15 @@ const Blog = require('../models/blog');
 const { PATH } = require('../config/index');
 const BlogDto = require('../dto/blog');
 const Comment = require('../models/comment');
+const BlogDetailsDTO = require('../dto/blog-details');
 
 const mongodbIdPattern = /^[0-9a-fA-F]{24}$/;
 
 const blogController = {
+
+
+    // create a blog
+
     async create(req, res, next) {
         // validate req body
         const createBlogSchema = Joi.object({
@@ -42,6 +47,7 @@ const blogController = {
                 content,
                 author,
                 photoPath: `${PATH}/storage/${imagePath}`
+                // photoPath: response.url,
             });
             await newBlog.save();
         } catch (error) {
@@ -51,6 +57,10 @@ const blogController = {
         const blogDto = new BlogDto(newBlog)
         return res.status(201).json({ blog: blogDto });
     },
+
+
+    // get all blogs
+
     async getAll(req, res, next) {
         try {
             const blogs = await Blog.find({});
@@ -66,6 +76,10 @@ const blogController = {
             return next(error);
         }
     },
+
+
+    // get blog by id
+
     async getById(req, res, next) {
         //validate id
         const getByIdSchema = Joi.object({
@@ -81,16 +95,20 @@ const blogController = {
 
         let blog
         try {
-            blog = await Blog.findOne({ _id: id });
+            blog = await Blog.findOne({ _id: id }).populate('author');
 
         } catch (error) {
             return next(error);
         }
 
         // return response
-        const blogDto = new BlogDto(blog);
+        const blogDto = new BlogDetailsDTO(blog);
         return res.status(200).json({ blog: blogDto })
     },
+
+
+    // update a blog
+
     async update(req, res, next) {
         // validate
         const updateBlogSchema = Joi.object({
@@ -140,6 +158,10 @@ const blogController = {
         //return reponse
         return res.status(200).json({message: "Blog updated Successfully"})
     },
+
+
+    // delete a blog
+
     async delete(req, res, next) {
         // validate id
         const deleteBlogSchema = Joi.object({

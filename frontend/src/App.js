@@ -6,9 +6,17 @@ import Home from './pages/Home/Home';
 import Protected from './components/protected/Protected';
 import Error from './pages/Error/Error';
 import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
+import { useSelector } from 'react-redux';
+import Crypto from './pages/Crypto/Crypto';
+import Blog from './pages/Blogs/Blog';
+import SubmitBlog from './pages/SubmitBlog/SubmitBlog';
+import BlogDetails from './pages/BlogDetails/BlogDetails';
+import UpdateBlog from './pages/UpdateBlog/UpdateBlog';
 
 function App() {
-  const isAuth = true;
+  const isAuth = useSelector((state) => state.user.auth);
+  // const isAuth = true;
   return (
     <div className={styles.container}>
       <BrowserRouter>
@@ -25,11 +33,11 @@ function App() {
               }
             />
             <Route
-              path='crypto'
+              path='/crypto'
               exact
               element={
                 <div className={styles.main}>
-                  CryptoCurrencies Page
+                  <Crypto/>
                 </div>
               }
             />
@@ -39,7 +47,29 @@ function App() {
               element={
                 <Protected isAuth={isAuth}>
                   <div className={styles.main}>
-                    Blogs Page
+                    <Blog/>
+                  </div>
+                </Protected>
+              }
+            />
+            <Route
+              path='/blog/:id'
+              exact
+              element={
+                <Protected isAuth={isAuth}>
+                  <div className={styles.main}>
+                    <BlogDetails />
+                  </div>
+                </Protected>
+              }
+            />
+            <Route
+              path='/blog-update/:id'
+              exact
+              element={
+                <Protected isAuth={isAuth}>
+                  <div className={styles.main}>
+                    <UpdateBlog />
                   </div>
                 </Protected>
               }
@@ -50,7 +80,7 @@ function App() {
               element={
                 <Protected isAuth={isAuth}>
                   <div className={styles.main}>
-                    Submit a Blog Page
+                    <SubmitBlog/>
                   </div>
                 </Protected>
               }
@@ -69,7 +99,7 @@ function App() {
               exact
               element={
                 <div className={styles.main}>
-                  Sign Up Page
+                  <Signup/>
                 </div>
               }
             />

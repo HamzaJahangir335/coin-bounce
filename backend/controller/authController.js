@@ -173,7 +173,7 @@ const authController = {
 
         // return response
         const userDto = new UserDto(user);
-        return res.status(200).json({ userDto , auth: true});
+        return res.status(200).json({user: userDto , auth: true});
     },
 
     //user logout

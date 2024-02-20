@@ -30,7 +30,7 @@ const commentController = {
             return next(error)
         }
 
-        return res.status(200).json({messgae: "Comment Created"})
+        return res.status(201).json({message: "Comment Created"})
     },
     async getById(req, res, next){
         const getByIdSchema = Joi.object({
